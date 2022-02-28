@@ -9,3 +9,11 @@ body {
 .details-button {
     background-color: aqua;
 }
+
+.detail-title {
+    color: brown;
+}
+
+.phone-container {
+    border: none;
+}
