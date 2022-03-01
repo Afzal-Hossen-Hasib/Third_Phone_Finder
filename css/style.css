@@ -7,7 +7,7 @@ body {
 }
 
 
-/* Search Button  */
+/* Search Button Style */
 .search-button {
     border: 1px solid #3498db;
     border-radius: 5px;
@@ -47,16 +47,16 @@ body {
     position: relative;
     padding: 10px 20px;
     border: none;
-    color: #7FFF00;
+    color: #FF4500;
     font-size: 20px;
     overflow: hidden;
     transition: 0.5s;
 }
 
 .detail-button:hover {
-    background-color: #7FFF00;
+    background-color: #FF4500;
     color: #111;
-    box-shadow: 0 0 50px #7FFF00;
+    box-shadow: 0 0 50px #FF4500;
     transition-delay: 0.5s;
 }
 
@@ -67,8 +67,8 @@ body {
     left: 0;
     width: 10px;
     height: 10px;
-    border-top: 2px solid #7FFF00;
-    border-left: 2px solid #7FFF00;
+    border-top: 2px solid #FF4500;
+    border-left: 2px solid #FF4500;
     transition: 0.5s;
     transition-delay: 0.5s;
 }
@@ -84,8 +84,8 @@ body {
     right: 0;
     width: 10px;
     height: 10px;
-    border-bottom: 2px solid #7FFF00;
-    border-right: 2px solid #7FFF00;
+    border-bottom: 2px solid #FF4500;
+    border-right: 2px solid #FF4500;
     transition: 0.5s;
     transition-delay: 0.5s;
 }
@@ -96,12 +96,19 @@ body {
     transition-delay: 0s;
 }
 
-
+/* Main Feature Style  */
+.title {
+    background-color: #DCDCDC;
+    color: #030325;
+    font-size: 27px;
+    font-weight: bold;
+}
 
 .detail-title {
-    color: brown;
+    color: #FF4500;
 }
 
 .phone-container {
     border: none;
 }
+

@@ -4,13 +4,15 @@
 // ---------------------------------------
 const loadPhoneData = () => {
     const searchField = document.getElementById("input-field");
+    const errorMassage = document.getElementById ('error-massage');
     const searchPhone = searchField.value;
 
     // Clear Data 
     searchField.value = '';
 
+    // Error Handle 
     if (searchPhone == '') {
-      console.log ('phone nai')
+      errorMassage.innerText = "Please Enter Phone Name";
     }
 
     else {
@@ -28,14 +30,22 @@ const loadPhoneData = () => {
 //      Update Phone Search And Display Section
 // -------------------------------------------------
 const displayPhone = (phones) => {
-    console.log (phones);
+
+        const slicePhone = phones.slice (0,20);
         const searchResult = document.getElementById ('search-result');
+        const errorMassage = document.getElementById ('error-massage');
         searchResult.textContent = '';
-        if (phones.length == 0) {
-          console.log('pai nai kisu')
+
+        // Error Handle 
+        if (slicePhone.length == 0) {
+          errorMassage.innerText = "Please Enter Phone Name";
+          searchResult.textContent = ''
         }
+
         else {
-          phones.forEach(phone => {
+            slicePhone.forEach(phone => {
+              
+            // Creat Element 
             const div = document.createElement('div');
             div.classList.add('col');
             div.innerHTML = `
@@ -49,6 +59,7 @@ const displayPhone = (phones) => {
              </div>
             `
             searchResult.appendChild(div);
+            errorMassage.innerHTML = "";
         });
          }
 }
@@ -69,37 +80,67 @@ const loadDetails = (phoneId) => {
 //      Update Phone Details Information
 // --------------------------------------------
 const displayDetails = (detail) => {
-    console.log(detail);
+    
     const phoneDetail = document.getElementById('detail-container');
     phoneDetail.textContent = '';
+
+    // Creat Element 
     const div = document.createElement('div');
-    console.log(detail.mainFeatures)
     div.classList.add('col');
     div.innerHTML = `
     <div class="card h-100 phone-container">
-       <img src="${detail.image}" class="card-img-top w-25" alt="...">
-       <div class="card-body">
-         <h5 class="card-title">${detail.brand}</h5>
-         <h5 class="card-title">${detail.name}</h5>
-         <h2> Main Features </h2>
-         <p class="card-text"> <span class = "detail-title"> Chipset: </span> ${detail.mainFeatures.chipSet}</p>
-         <p class="card-text"> <span class = "detail-title"> Displaysize: </span> ${detail.mainFeatures.displaySize}</p>
-         <p class="card-text"> <span class = "detail-title"> Memory: </span> ${detail.mainFeatures.memory}</p>
-         <p class="card-text"> <span class = "detail-title"> Storage: </span> ${detail.mainFeatures.storage}</p>
+          <img src="${detail.image}" class="card-img-top w-25" alt="...">
+          <div class="card-body">
 
+          <h5 class="card-title"><span class = "detail-title"> Brand: </span> ${detail.name}</h5>
+          <h5 class="card-title"><span class = "detail-title"> Name: </span> ${detail.brand}</h5>
 
-         ${detail.mainFeatures?.sensors.forEach((sensor) => {
-          //  const sensorText = document.createElement ('p');
-          //  sensorText.innerText = `${sensor}`
-          `<p>${sensor}</p>`
-         }) } 
+          <h2 class = "mt-4 title"> Main Features </h2>
+          <p class="card-text"> <span class = "detail-title"> Chipset: </span> ${detail.mainFeatures.chipSet}</p>
+          <p class="card-text"> <span class = "detail-title"> Displaysize: </span> ${detail.mainFeatures.displaySize}</p>
+          <p class="card-text"> <span class = "detail-title"> Memory: </span> ${detail.mainFeatures.memory}</p>
+          <p class="card-text"> <span class = "detail-title"> Storage: </span> ${detail.mainFeatures.storage}</p>
+
+          <div id = "sensor-div"><p>${sensors(detail.slug)}</p></div> 
         
-         <p class="card-text"> <span class = "detail-title"> Releasedate: </span> ${detail.releaseDate}</p>
+          <h2 class = "mt-4 title"> Other Features </h2>
+          <p class="card-text"> <span class = "detail-title"> Bluetooth: </span> ${detail.others.Bluetooth}</p>
+          <p class="card-text"> <span class = "detail-title"> GPS: </span> ${detail.others.GPS}</p>
+          <p class="card-text"> <span class = "detail-title"> NFC: </span> ${detail.others.NFC}</p>
+          <p class="card-text"> <span class = "detail-title"> Radio: </span> ${detail.others.Radio}</p>
+          <p class="card-text"> <span class = "detail-title"> USB: </span> ${detail.others.USB}</p>
+          <p class="card-text"> <span class = "detail-title"> WLAN: </span> ${detail.others.WLAN}</p>
+
+          <h2 class = "mt-4 title"> Release Date </h2>
+         <p class="card-text"> <span class = "detail-title"> Releasedate: </span> ${detail.releaseDate?detail.releaseDate:'No Release Date'}</p>
          
        </div>
      </div>
     `
     phoneDetail.appendChild (div);
 
-    // console.log(detail.mainFeatures.sensors);
+}
+
+
+
+const sensors = (id) => {
+  const url = `
+    https://openapi.programming-hero.com/api/phone/${id}
+    `;
+    fetch (url)
+    .then (res => res.json())
+    .then (data => sensorData (data));
+}
+
+const sensorData = (sensor) => {
+    let singleSensor = sensor.data.mainFeatures;
+    // console.log (singleSensor);
+    const sensorDiv = document.getElementById ('sensor-div');
+    singleSensor.sensors.forEach ((sensor) => {
+      // console.log (sensor);
+    
+      let sensorText = document.createElement ('div');
+      sensorText.innerHTML = `<span>${sensor}</span>`
+      sensorDiv.appendChild = sensorText;
+    }) 
 }
