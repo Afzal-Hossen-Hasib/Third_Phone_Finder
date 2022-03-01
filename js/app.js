@@ -12,7 +12,7 @@ const loadPhoneData = () => {
 
     // Error Handle 
     if (searchPhone == '') {
-      errorMassage.innerText = "Please Enter Phone Name";
+      errorMassage.innerText = "Please Enter A Phone Name";
     }
 
     else {
@@ -38,7 +38,7 @@ const displayPhone = (phones) => {
 
         // Error Handle 
         if (slicePhone.length == 0) {
-          errorMassage.innerText = "Please Enter Phone Name";
+          errorMassage.innerText = "Please Enter A Valid Phone Name";
           searchResult.textContent = ''
         }
 
@@ -54,7 +54,7 @@ const displayPhone = (phones) => {
                <div class="card-body">
                  <h5 class="card-title">Name : ${phone.phone_name}</h5>
                  <p class="card-text">Brand : ${phone.brand}</p>
-                 <button onclick="loadDetails ('${phone.slug}')" class ="detail-button">See Details</button>
+                 <button onclick="loadDetails ('${phone.slug}')" class ="button">See Details</button>
                </div>
              </div>
             `
@@ -101,15 +101,11 @@ const displayDetails = (detail) => {
           <p class="card-text"> <span class = "detail-title"> Memory: </span> ${detail.mainFeatures.memory}</p>
           <p class="card-text"> <span class = "detail-title"> Storage: </span> ${detail.mainFeatures.storage}</p>
 
-          <div id = "sensor-div"><p>${sensors(detail.slug)}</p></div> 
+          <h2 id = "sensonr-title" class = "mt-4 title"> Sensors </h2>
+          <div id = "sensor-div"></div> 
         
           <h2 class = "mt-4 title"> Other Features </h2>
-          <p class="card-text"> <span class = "detail-title"> Bluetooth: </span> ${detail.others.Bluetooth}</p>
-          <p class="card-text"> <span class = "detail-title"> GPS: </span> ${detail.others.GPS}</p>
-          <p class="card-text"> <span class = "detail-title"> NFC: </span> ${detail.others.NFC}</p>
-          <p class="card-text"> <span class = "detail-title"> Radio: </span> ${detail.others.Radio}</p>
-          <p class="card-text"> <span class = "detail-title"> USB: </span> ${detail.others.USB}</p>
-          <p class="card-text"> <span class = "detail-title"> WLAN: </span> ${detail.others.WLAN}</p>
+          <div id = "other-div"></div> 
 
           <h2 class = "mt-4 title"> Release Date </h2>
          <p class="card-text"> <span class = "detail-title"> Releasedate: </span> ${detail.releaseDate?detail.releaseDate:'No Release Date'}</p>
@@ -118,6 +114,7 @@ const displayDetails = (detail) => {
      </div>
     `
     phoneDetail.appendChild (div);
+    sensors(detail.slug)
 
 }
 
@@ -133,14 +130,52 @@ const sensors = (id) => {
 }
 
 const sensorData = (sensor) => {
-    let singleSensor = sensor.data.mainFeatures;
-    // console.log (singleSensor);
-    const sensorDiv = document.getElementById ('sensor-div');
-    singleSensor.sensors.forEach ((sensor) => {
-      // console.log (sensor);
-    
-      let sensorText = document.createElement ('div');
-      sensorText.innerHTML = `<span>${sensor}</span>`
-      sensorDiv.appendChild = sensorText;
-    }) 
+
+    const sensorContainer = document.getElementById ('sensor-div');
+    const sensorData = sensor.data.mainFeatures.sensors;
+
+    if (sensorData) {
+        sensorData.forEach ((sensorDataText) => {
+        const sensorElement = document.createElement ('p');
+        sensorElement.innerText = `${sensorDataText}`;
+        sensorContainer.appendChild (sensorElement);
+      })
+    } 
+    else {
+      const sensonrTitle = document.getElementById ('sensonr-title');
+      sensonrTitle.classList.add ('d-none');
+    }
+
+    const otherDiv = document.getElementById ('other-div');
+    console.log (sensor);
+    const otherData = sensor.data.others;
+    // console.log (otherData);
+    const otherDataArr = Object.entries (otherData);
+    // console.log (otherDataArr);
+    otherDataArr.forEach (([key, value]) => {
+      // console.log (key, value);
+      // console.log (v)
+      
+      const otherElement = document.createElement ('div');
+      
+        otherElement.innerHTML = `<p class="card-text pt-3"> <span class = "detail-title"> ${key}: </span> ${value}</p>`
+        otherDiv.appendChild (otherElement);
+        
+    })
 }
+
+
+
+
+
+
+
+
+
+
+{/* <p class="card-text"> <span class = "detail-title"> Bluetooth: </span> ${detail.others.Bluetooth}</p>
+          <p class="card-text"> <span class = "detail-title"> GPS: </span> ${detail.others.GPS}</p>
+          <p class="card-text"> <span class = "detail-title"> NFC: </span> ${detail.others.NFC}</p>
+          <p class="card-text"> <span class = "detail-title"> Radio: </span> ${detail.others.Radio}</p>
+          <p class="card-text"> <span class = "detail-title"> USB: </span> ${detail.others.USB}</p>
+          <p class="card-text"> <span class = "detail-title"> WLAN: </span> ${detail.others.WLAN}</p> */}
