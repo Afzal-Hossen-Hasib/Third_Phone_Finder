@@ -91,7 +91,7 @@ const displayDetails = (detail) => {
     const div = document.createElement('div');
     div.classList.add('col');
     div.innerHTML = `
-    <div class="card h-100 phone-container w-75 mx-auto border border-1 shadow p-2 bg-body rounded">
+    <div class="detail-card card h-100 phone-container w-50 mx-auto border border-1 shadow p-2 bg-body rounded">
           <img src="${detail.image}" class="card-img-top w-50 mx-auto d-block pt-3" alt="...">
           <div class="card-body">
 

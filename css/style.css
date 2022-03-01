@@ -81,3 +81,12 @@ body {
 .detail-title {
     color: #FF4500;
 }
+
+
+@media only screen and (max-width:768px) {
+
+    .detail-card, .input-area {
+        width: 100% !important;
+    }
+
+}
