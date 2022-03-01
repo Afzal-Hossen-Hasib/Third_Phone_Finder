@@ -24,13 +24,16 @@ const loadPhoneData = () => {
       .then((res) => res.json())
       .then((data) => displayPhone(data.data)); 
     } 
+    const phoneDetail = document.getElementById('detail-container');
+    phoneDetail.textContent = '';
 };
+
 
 // -------------------------------------------------
 //      Update Phone Search And Display Section
 // -------------------------------------------------
 const displayPhone = (phones) => {
-
+        
         const slicePhone = phones.slice (0,20);
         const searchResult = document.getElementById ('search-result');
         const errorMassage = document.getElementById ('error-massage');
@@ -49,11 +52,11 @@ const displayPhone = (phones) => {
             const div = document.createElement('div');
             div.classList.add('col');
             div.innerHTML = `
-            <div class="card h-100 phone-container">
-               <img src="${phone.image}" class="card-img-top w-50" alt="...">
-               <div class="card-body">
-                 <h5 class="card-title">Name : ${phone.phone_name}</h5>
-                 <p class="card-text">Brand : ${phone.brand}</p>
+            <div class="card h-100 phone-container border border-1 shadow bg-body rounded">
+               <img src="${phone.image}" class="card-img-top w-50 mx-auto d-block pt-3" alt="...">
+               <div class="card-body w-75 mx-auto ps-5">
+                 <h5 class="card-title"><span class = "detail-title"> Model: </span> ${phone.phone_name}</h5>
+                 <p class="card-text"><span class = "detail-title"> Brand: </span> ${phone.brand}</p>
                  <button onclick="loadDetails ('${phone.slug}')" class ="button">See Details</button>
                </div>
              </div>
@@ -88,12 +91,12 @@ const displayDetails = (detail) => {
     const div = document.createElement('div');
     div.classList.add('col');
     div.innerHTML = `
-    <div class="card h-100 phone-container">
-          <img src="${detail.image}" class="card-img-top w-25" alt="...">
+    <div class="card h-100 phone-container w-75 mx-auto border border-1 shadow p-2 bg-body rounded">
+          <img src="${detail.image}" class="card-img-top w-50 mx-auto d-block pt-3" alt="...">
           <div class="card-body">
 
-          <h5 class="card-title"><span class = "detail-title"> Brand: </span> ${detail.name}</h5>
-          <h5 class="card-title"><span class = "detail-title"> Name: </span> ${detail.brand}</h5>
+          <h5 class="card-title"><span class = "detail-title"> Model: </span> ${detail.name}</h5>
+          <h5 class="card-title"><span class = "detail-title"> Brand: </span> ${detail.brand}</h5>
 
           <h2 class = "mt-4 title"> Main Features </h2>
           <p class="card-text"> <span class = "detail-title"> Chipset: </span> ${detail.mainFeatures.chipSet}</p>
@@ -104,7 +107,7 @@ const displayDetails = (detail) => {
           <h2 id = "sensonr-title" class = "mt-4 title"> Sensors </h2>
           <div id = "sensor-div"></div> 
         
-          <h2 class = "mt-4 title"> Other Features </h2>
+          <h2 id = "other-title" class = "mt-4 title"> Other Features </h2>
           <div id = "other-div"></div> 
 
           <h2 class = "mt-4 title"> Release Date </h2>
@@ -118,64 +121,51 @@ const displayDetails = (detail) => {
 
 }
 
-
-
+//  update sensor and other details 
 const sensors = (id) => {
   const url = `
     https://openapi.programming-hero.com/api/phone/${id}
     `;
     fetch (url)
     .then (res => res.json())
-    .then (data => sensorData (data));
+    .then (data => detailInformation (data));
 }
 
-const sensorData = (sensor) => {
+const detailInformation = (info) => {
 
+    // sensor details 
     const sensorContainer = document.getElementById ('sensor-div');
-    const sensorData = sensor.data.mainFeatures.sensors;
+    const sensorData = info.data.mainFeatures.sensors;
 
     if (sensorData) {
         sensorData.forEach ((sensorDataText) => {
-        const sensorElement = document.createElement ('p');
-        sensorElement.innerText = `${sensorDataText}`;
+        const sensorElement = document.createElement ('span');
+        sensorElement.classList.add('pe-3');
+        sensorElement.innerText = `${sensorDataText}, `;
         sensorContainer.appendChild (sensorElement);
       })
     } 
+
     else {
       const sensonrTitle = document.getElementById ('sensonr-title');
       sensonrTitle.classList.add ('d-none');
     }
 
+    // Other Details 
     const otherDiv = document.getElementById ('other-div');
-    console.log (sensor);
-    const otherData = sensor.data.others;
-    // console.log (otherData);
-    const otherDataArr = Object.entries (otherData);
-    // console.log (otherDataArr);
-    otherDataArr.forEach (([key, value]) => {
-      // console.log (key, value);
-      // console.log (v)
-      
-      const otherElement = document.createElement ('div');
-      
+    const otherData = info.data.others;
+
+    if (otherData) {
+        const otherDataArr = Object.entries (otherData);
+        otherDataArr.forEach (([key, value]) => {
+        const otherElement = document.createElement ('div');
         otherElement.innerHTML = `<p class="card-text pt-3"> <span class = "detail-title"> ${key}: </span> ${value}</p>`
         otherDiv.appendChild (otherElement);
-        
     })
+      }
+
+     else {
+      const otherTitle = document.getElementById ('other-title');
+      otherTitle.classList.add ('d-none');
+     }
 }
-
-
-
-
-
-
-
-
-
-
-{/* <p class="card-text"> <span class = "detail-title"> Bluetooth: </span> ${detail.others.Bluetooth}</p>
-          <p class="card-text"> <span class = "detail-title"> GPS: </span> ${detail.others.GPS}</p>
-          <p class="card-text"> <span class = "detail-title"> NFC: </span> ${detail.others.NFC}</p>
-          <p class="card-text"> <span class = "detail-title"> Radio: </span> ${detail.others.Radio}</p>
-          <p class="card-text"> <span class = "detail-title"> USB: </span> ${detail.others.USB}</p>
-          <p class="card-text"> <span class = "detail-title"> WLAN: </span> ${detail.others.WLAN}</p> */}
