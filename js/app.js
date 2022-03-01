@@ -44,7 +44,7 @@ const displayPhone = (phones) => {
                <div class="card-body">
                  <h5 class="card-title">Name : ${phone.phone_name}</h5>
                  <p class="card-text">Brand : ${phone.brand}</p>
-                 <button onclick="loadDetails ('${phone.slug}')" class ="btn btn-info"> Details</button>
+                 <button onclick="loadDetails ('${phone.slug}')" class ="detail-button">See Details</button>
                </div>
              </div>
             `
