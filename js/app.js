@@ -64,8 +64,8 @@ const displayPhone = (phones) => {
             searchResult.appendChild(div);
             errorMassage.innerHTML = "";
         });
-         }
-}
+         };
+};
 
 // ----------------------------------------
 //     Update Details Field Section
@@ -77,7 +77,7 @@ const loadDetails = (phoneId) => {
     fetch (url)
     .then (res => res.json())
     .then (data => displayDetails (data.data));
-}
+};
 
 // --------------------------------------------
 //      Update Phone Details Information
@@ -98,38 +98,36 @@ const displayDetails = (detail) => {
           <h5 class="card-title"><span class = "detail-title"> Model: </span> ${detail.name}</h5>
           <h5 class="card-title"><span class = "detail-title"> Brand: </span> ${detail.brand}</h5>
 
-          <h2 class = "mt-4 title"> Main Features </h2>
+          <h2 class = "mt-4 ps-2 title"> Main Features </h2>
           <p class="card-text"> <span class = "detail-title"> Chipset: </span> ${detail.mainFeatures.chipSet}</p>
           <p class="card-text"> <span class = "detail-title"> Displaysize: </span> ${detail.mainFeatures.displaySize}</p>
           <p class="card-text"> <span class = "detail-title"> Memory: </span> ${detail.mainFeatures.memory}</p>
           <p class="card-text"> <span class = "detail-title"> Storage: </span> ${detail.mainFeatures.storage}</p>
 
-          <h2 id = "sensonr-title" class = "mt-4 title"> Sensors </h2>
+          <h2 id = "sensonr-title" class = "mt-4 ps-2 title"> Sensors </h2>
           <div id = "sensor-div"></div> 
         
-          <h2 id = "other-title" class = "mt-4 title"> Other Features </h2>
+          <h2 id = "other-title" class = "mt-4 ps-2 title"> Other Features </h2>
           <div id = "other-div"></div> 
 
-          <h2 class = "mt-4 title"> Release Date </h2>
+          <h2 class = "mt-4 ps-2 title"> Release Date </h2>
          <p class="card-text"> <span class = "detail-title"> Releasedate: </span> ${detail.releaseDate?detail.releaseDate:'No Release Date'}</p>
-         
        </div>
      </div>
     `
     phoneDetail.appendChild (div);
-    sensors(detail.slug)
-
-}
+    details(detail.slug)
+};
 
 //  update sensor and other details 
-const sensors = (id) => {
+const details = (id) => {
   const url = `
     https://openapi.programming-hero.com/api/phone/${id}
     `;
     fetch (url)
     .then (res => res.json())
     .then (data => detailInformation (data));
-}
+};
 
 const detailInformation = (info) => {
 
@@ -168,4 +166,4 @@ const detailInformation = (info) => {
       const otherTitle = document.getElementById ('other-title');
       otherTitle.classList.add ('d-none');
      }
-}
+};
